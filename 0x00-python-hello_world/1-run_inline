@@ -1,0 +1,4 @@
+#!/bin/bash
+# This script executes the Python code stored in the $PYCODE envit var
+
+python3 -c "$PYCODE"
