@@ -1,2 +1,4 @@
 #!/usr/bin/python3
-print("{}".format("".join([chr(i) for i in range(97, 123) if i != 101 and i != 113])), end="")
+for i in range(ord('a'), ord('z') + 1):
+    if chr(i) != 'e' and chr(i) != 'q':
+        print("{:c}".format(i), end="")
