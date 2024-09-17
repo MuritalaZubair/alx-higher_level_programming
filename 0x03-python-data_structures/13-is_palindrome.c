@@ -1,17 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "lists.h"
 
 /**
- * reverse_listint - reverses a linked list
- * @head: pointer to the first node in the list
- * Return: pointer to the first node in the new list
+ * reverse_list - Reverses a singly linked list.
+ * @head: Pointer to the head of the list.
+ * Return: Pointer to the new head of the reversed list.
  */
-void reverse_listint(listint_t **head)
+listint_t *reverse_list(listint_t *head)
 {
 	listint_t *prev = NULL;
-	listint_t *current = *head;
+	listint_t *current = head;
 	listint_t *next = NULL;
 
-	while (current)
+	while (current != NULL)
 	{
 		next = current->next;
 		current->next = prev;
@@ -19,53 +21,48 @@ void reverse_listint(listint_t **head)
 		current = next;
 	}
 
-	*head = prev;
+	return (prev);
 }
 
 /**
- * is_palindrome - checks if a linked list is a palindrome
- * @head: double pointer to the linked list
- *
- * Return: 1 if it is, 0 if not
+ * is_palindrome - Checks if a singly linked list is a palindrome.
+ * @head: Pointer to the head of the list.
+ * Return: 1 if the list is a palindrome, 0 otherwise.
  */
 int is_palindrome(listint_t **head)
 {
-	listint_t *slow = *head, *fast = *head, *temp = *head, *dup = NULL;
+	listint_t *slow, *fast, *second_half, *first_half;
+	listint_t *temp;
+	int result = 1;
 
 	if (*head == NULL || (*head)->next == NULL)
 		return (1);
 
-	while (1)
+	slow = fast = *head;
+
+	while (fast != NULL && fast->next != NULL)
 	{
-		fast = fast->next->next;
-		if (!fast)
-		{
-			dup = slow->next;
-			break;
-		}
-		if (!fast->next)
-		{
-			dup = slow->next->next;
-			break;
-		}
 		slow = slow->next;
+		fast = fast->next->next;
 	}
 
-	reverse_listint(&dup);
+	second_half = reverse_list(slow);
+	first_half = *head;
 
-	while (dup && temp)
+	temp = second_half;
+
+	while (temp != NULL)
 	{
-		if (temp->n == dup->n)
+		if (first_half->n != temp->n)
 		{
-			dup = dup->next;
-			temp = temp->next;
+			result = 0;
+			break;
 		}
-		else
-			return (0);
+		first_half = first_half->next;
+		temp = temp->next;
 	}
 
-	if (!dup)
-		return (1);
+	reverse_list(second_half); /* Optional: Restore the list */
 
-	return (0);
+	return (result);
 }
