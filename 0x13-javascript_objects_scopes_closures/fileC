@@ -1,0 +1,2 @@
+echo "C is fun!" > fileA
+echo "Python is Cool!!!" > fileB
